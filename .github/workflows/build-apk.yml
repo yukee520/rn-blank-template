@@ -29,7 +29,7 @@ jobs:
           java-version: '17'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: actions/setup-android@v3
 
       - name: Install dependencies
         run: npm ci
@@ -60,4 +60,4 @@ jobs:
       - name: Show APK info
         run: |
           ls -lh android/app/build/outputs/apk/release/
-          echo "Release APK built successfully ✅"
+          echo "Release APK built successfully"

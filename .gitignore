@@ -72,3 +72,32 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# === Template additions ===
+# Keystores (never commit)
+*.keystore
+*.jks
+!debug.keystore
+
+# Local configs
+android/local.properties
+ios/Pods/
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+
+# Template: keep scripts tracked
+!scripts/
+!scripts/*.sh

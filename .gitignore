@@ -101,3 +101,8 @@ Thumbs.db
 # Template: keep scripts tracked
 !scripts/
 !scripts/*.sh
+
+# Release keystore — NEVER commit
+android/app/release.keystore
+*.keystore
+!debug.keystore

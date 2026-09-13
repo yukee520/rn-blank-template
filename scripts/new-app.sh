@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# new-app.sh — Create a new project from the template
+# new-app.sh - Create a new project from the template
 # Usage: ./scripts/new-app.sh MyAppName com.yourname.myapp
 
 set -e
@@ -68,6 +68,14 @@ if [ -d "$OLD_JAVA_DIR" ]; then
   rmdir "android/app/src/main/java/com" 2>/dev/null || true
 fi
 
+echo "Updating app name in MainActivity.kt..."
+MAIN_ACTIVITY=$(find android/app/src/main/java -name "MainActivity.kt" | head -1)
+if [ -n "$MAIN_ACTIVITY" ]; then
+  sed -i "s|getMainComponentName(): String = \".*\"|getMainComponentName(): String = \"$APP_NAME\"|" "$MAIN_ACTIVITY"
+  echo "  Fixed: $MAIN_ACTIVITY"
+fi
+
+echo "Updating app.json..."
 cat > app.json << APPJSON_EOF
 {
   "name": "$APP_NAME",
@@ -75,10 +83,13 @@ cat > app.json << APPJSON_EOF
 }
 APPJSON_EOF
 
+echo "Updating strings.xml..."
 sed -i "s|<string name=\"app_name\">.*</string>|<string name=\"app_name\">$APP_NAME</string>|" android/app/src/main/res/values/strings.xml
 
+echo "Updating settings.gradle..."
 sed -i "s|rootProject.name = '.*'|rootProject.name = '$APP_NAME'|" android/settings.gradle
 
+echo "Updating package.json..."
 NPM_NAME=$(echo "$APP_NAME" | sed 's/\([A-Z]\)/-\L\1/g' | sed 's/^-//')
 sed -i "s|\"name\": \".*\"|\"name\": \"$NPM_NAME\"|" package.json
 
